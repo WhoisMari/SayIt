@@ -1,0 +1,83 @@
+{% for post in page_obj %}
+<div class="row">
+	<div class="col-12">
+		<div class="row wrap-post">
+			<div class="col-12">
+				<div class="post-info">
+					<div class="post-user-date">
+						<span class="poster">
+							<a href="{% url 'profile' post.user.id %}">{{ post.user }}</a>
+						</span>
+						<span class="datetime">{{ post.created_at }}</span>
+					</div>
+
+					<div class="post-user-actions">
+						{% if request.user.id == post.user_id %}
+						<div id="edit" onclick="edit('{{ post.id }}')">Edit <i class="fas fa-edit"></i></div>
+						{% endif %}
+					</div>
+					
+					
+				</div>
+
+				<div class="post-body">
+					<span id="post-{{post.id}}">{{ post.post }}</span>
+				</div>
+
+				<div class="likes">
+					{% if user.is_authenticated %}
+					<button class="like-button" onclick="like('{{ post.id }}')">
+						{% if post.user_liked == True %}
+						<i id="like-button-{{post.id}}" class="fas fa-heart"></i>
+						{% else %}
+						<i id="like-button-{{post.id}}" class="far fa-heart"></i>
+						{% endif %}
+					</button>
+					{% else %}
+					<button class="like-button" onclick="like('{{ post.id }}')" id="like-button-{{post.id}}" disabled><i class="far fa-heart"></i></button>
+					{% endif %}
+
+					<div id="like-count-{{post.id}}" class="d-inline-block">
+						{{ post.likeCount }}
+					</div>
+				</div>
+
+				<div class="edit-form">
+					<textarea class="form-control d-none" id="edit-box-{{post.id}}" name="edit-box"></textarea>
+					<button id="edit-button-{{post.id}}" class="primary-button d-none">Save</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% empty %}
+<div class="row">
+	<div class="col-12">
+		<span>It's empty here :( Add something like a mood, a poem, or maybe just a hello world ;)</span>
+	</div>
+</div>
+{% endfor %}
+
+{% if page_ob %}
+<nav class="wrap-pagination">
+	<ul class="pagination">
+		{% if page_obj.has_previous %}
+		<li class="page-item">
+			<a class="page-link" id='previous' href="?page={{ page_obj.previous_page_number }}">Previous</a>
+		</li>
+		{% endif %}
+
+		{% for page in page_obj.paginator %}
+		<li class="page-item">
+			<a class="page-link" href="?page={{page.number}}">{{page.number}}</a>
+		</li>
+		{% endfor %}
+
+		{% if page_obj.has_next %}
+		<li class="page-item">
+			<a class="page-link" id='next' href="?page={{ page_obj.next_page_number }}">Next</a>
+		</li>
+		{% endif %}
+	</ul>
+</nav>
+{% endif %}

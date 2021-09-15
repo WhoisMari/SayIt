@@ -1,0 +1,30 @@
+{% extends "network/layout.html" %}
+{% load static %}
+
+{% block body %}
+
+	<div class="row">
+		<div class="col-12">
+			<h3>All Posts</h3>
+		</div>
+	</div>
+
+	{% include "network/messages.html" %}
+
+	<div class="row">
+		<div class="col-12">
+			<div class="wrap-new-post">
+				<form class="form-group" id="new-post-form" action="{% url 'index' %}" method="POST" >
+					{% csrf_token %}
+					<textarea id="new-post-body" class="form-control" type="text-area" rows="3" name="new_post" placeholder="What are you thinking about?" id="new-post-text"></textarea>
+					<button id="submit-new-post" class="primary-button" type="submit" id="new-post-send">
+						Post
+					</button>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	{% include "network/posts.html" %}
+
+{% endblock %}

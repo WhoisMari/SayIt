@@ -1,0 +1,49 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+
+<div class="container">
+
+	<div class="row">
+		<div class="col-12">
+			<h3>Login</h3>
+		</div>
+	</div>
+
+	{% include "network/messages.html" %}	
+
+	<div class="row">
+		<div class="col-12">
+			<form class="register-login-form" action="{% url 'login' %}" method="post">
+				{% csrf_token %}
+				<div class="row">
+					<div class="col-12">
+						<div class="form-group">
+							<input autofocus class="form-control" type="text" name="username" placeholder="Username">
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-12">
+						<div class="form-group">
+							<input class="form-control" type="password" name="password" placeholder="Password">
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-12">
+						<button class="primary-button" type="submit">Login</button>
+					</div>
+				</div>
+
+				<div class="message">
+					<span>Don't have an account? <a href="{% url 'register' %}">Register here.</a></span>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

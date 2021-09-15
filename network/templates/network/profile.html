@@ -1,0 +1,40 @@
+{% extends "network/layout.html" %}
+{% load static %}
+
+{% block title %}
+{{ current_user.username}}'s profile
+{% endblock %}
+
+{% block body %}
+
+<div id="profile" class="row">
+	<div class="col-12">
+		<div class="wrap-user-profile">
+			<h3>{{ current_user.username }}</h3>
+			
+			<div class="user-info">
+				<span>Followers: {{ followers }}</span>
+				<span>Following: {{ following }}</span>
+			</div>
+	
+			<form action="{% url 'profile' current_user.id %}" method="post">
+			{% if user.id != current_user.id %}
+				{% csrf_token %}
+				{% if button == "Follow" %}
+					<button type="submit" class="primary-button" name="button" value="Follow">Follow</button>
+				{% else %}
+					<button type="submit" class="unfollow-button" name="button" value="Unfollow">Unfollow</button>
+				{% endif %}
+			{% endif %}
+			</form>
+		</div>
+	</div>
+</div>
+
+<hr>
+
+{% include "network/messages.html" %}
+
+{% include "network/posts.html" %}
+
+{% endblock %}
